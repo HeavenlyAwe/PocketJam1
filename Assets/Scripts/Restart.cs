@@ -11,6 +11,9 @@ public class Restart : MonoBehaviour {
             LevelGenerator levelGenerator = GameObject.Find("Level").GetComponent<LevelGenerator>();
             Debug.Log(levelGenerator.PlayerStartPosition);
             other.transform.position = levelGenerator.PlayerStartPosition;
+        } else if (other.tag == "Enemy") {
+            Debug.Log("Enemy detected");
+            GameObject.Destroy(other);
         }
     }
 }
