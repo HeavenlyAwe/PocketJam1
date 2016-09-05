@@ -11,6 +11,8 @@ public class LevelGenerator : MonoBehaviour {
 
     public GameObject orangePrefab;
 
+    public float slopeThickness = 0.2f;
+
     // public TextAsset level1;
     public Texture2D level1;
     public Texture2D level2;
@@ -25,14 +27,13 @@ public class LevelGenerator : MonoBehaviour {
     }
 
     private bool[][] checkedValues;
-    private LineRenderer lineRenderer;
 
     // Use this for initialization
     void Start() {
-        lineRenderer = gameObject.AddComponent<LineRenderer>();
         // parseTextData();
 
         level = level2;
+        level = level1; // TODO: Remove this hard-coded value!
         parsePictureData();
     }
 
@@ -89,11 +90,14 @@ public class LevelGenerator : MonoBehaviour {
             int g = colors[i].g;
             int b = colors[i].b;
 
-            if (r == 63 && g == 63 && b == 63) {
-                addTile(0, x, y);
-                addSlope(0, x, y, colors, r, g, b);
+            if (r == 0 && g == 63 && b == 0) {
+
+            } else if (r == 63 && g == 63 && b == 63) {
+                // addTile(0, x, y);
+                addSlope(0, 1, x, y, colors, r, g, b);
             } else if (r == 127 && g == 127 && b == 127) {
-                addTile(1, x, y);
+                // addTile(1, x, y);
+                addSlope(0, -1, x, y, colors, r, g, b);
             } else if (r == 0 && g == 0 && b == 0) {
                 addTile(2, x, y);
             } else if (r == 255 && g == 0 && b == 0) {
@@ -101,20 +105,27 @@ public class LevelGenerator : MonoBehaviour {
             } else if (r == 0 && g == 255 && b == 0) {
                 addOrange(x, y);
             }
-            
+
             checkedValues[y][x] = true;
         }
+
+        addTile(2, 0, 0);
     }
 
-    private void addSlope(int type, int x, int y, Color32[] colors, int r, int b, int g) {
+    /// <summary>
+    /// Direction should be either 1 or -1.
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="direction"></param>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="colors"></param>
+    /// <param name="r"></param>
+    /// <param name="b"></param>
+    /// <param name="g"></param>
+    private void addSlope(int type, int direction, int x, int y, Color32[] colors, int r, int b, int g) {
         int maxX = x;
         int maxY = y;
-
-        lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-
-        lineRenderer.SetColors(Color.blue, Color.blue);
-        lineRenderer.SetWidth(0.2f, 0.2f);
-        lineRenderer.SetVertexCount(2);
 
         for (int ix = x; ix < level.width; ix++) {
             int i = y * level.width + ix;
@@ -124,71 +135,47 @@ public class LevelGenerator : MonoBehaviour {
             int bb = colors[i].b;
 
             if (rr != r || gg != g || bb != b) {
-                maxX = ix;
                 break;
             }
+            maxX = ix;
         }
 
         for (int iy = y; iy < level.height; iy++) {
-            int i = y * level.width + x;
+            int i = iy * level.width + x;
 
             int rr = colors[i].r;
             int gg = colors[i].g;
             int bb = colors[i].b;
 
             if (rr != r || gg != g || bb != b) {
-                maxY = iy;
                 break;
             }
+            maxY = iy;
         }
 
-        for (int iy = y; iy < maxY; iy++) {
-            for (int ix = x; ix < maxX; ix++) {
+        for (int iy = y; iy <= maxY; iy++) {
+            for (int ix = x; ix <= maxX; ix++) {
                 checkedValues[iy][ix] = true;
             }
         }
 
-        lineRenderer.SetPosition(0, new Vector3(x, y, 0));
-        lineRenderer.SetPosition(1, new Vector3(maxX, maxY, 0));
-        Debug.Log(x + ":" + y + " - " + maxX + ":" + maxY);
+        float x0 = x - 0.5f;
+        float y0 = y - 0.5f;
+        float x1 = maxX + 0.5f;
+        float y1 = maxY + 0.5f;
 
+        float length = Mathf.Sqrt(Mathf.Pow(x1 - x0, 2) + Mathf.Pow(y1 - y0, 2));
 
-        Mesh mesh = new Mesh();
-        mesh.name = "testMesh";
-        mesh.Clear();
-        Vector3[] vertices = new Vector3[4];
-        
-        vertices[0] = new Vector3(-10.0f, 0.0f, 0.0f);
-        vertices[1] = new Vector3(10.0f, 0.0f, 0.0f);
-        vertices[2] = new Vector3(-10.0f, 50.0f, 0.0f);
-        vertices[3] = new Vector3(10.0f, 50.0f, 0.0f);
-        mesh.vertices = vertices;
+        GameObject slopeCenter = GameObject.CreatePrimitive(PrimitiveType.Cube);
 
-        mesh.uv = new Vector2[4];
-        mesh.uv[0] = new Vector2(0, 0);
-        mesh.uv[1] = new Vector2(1, 0);
-        mesh.uv[2] = new Vector2(0, 1);
-        mesh.uv[3] = new Vector2(1, 1);
+        float angle = Mathf.Acos((x1 - x0) / length) * direction;
+        float xOffset = slopeThickness/2.0f * Mathf.Sin(angle);
+        float yOffset = slopeThickness / 2.0f * Mathf.Cos(angle);
 
-        mesh.triangles = new int[6];
-        mesh.triangles[0] = 0;
-        mesh.triangles[1] = 1;
-        mesh.triangles[2] = 2;
-        mesh.triangles[3] = 1;
-        mesh.triangles[4] = 3;
-        mesh.triangles[5] = 2;
+        slopeCenter.transform.localScale = new Vector3(length, slopeThickness, 1.0f);
+        slopeCenter.transform.Rotate(new Vector3(0, 0, -Mathf.Rad2Deg * angle));
+        slopeCenter.transform.position = new Vector3((x1 - x0) / 2.0f + x0 - xOffset, (y1 - y0) / 2.0f + y0 - yOffset, 0);
 
-        mesh.RecalculateNormals();
-
-        GameObject theObj = new GameObject();
-        theObj.AddComponent<MeshFilter>();
-        theObj.AddComponent<MeshRenderer>();
-
-        MeshFilter mf = (MeshFilter) theObj.gameObject.GetComponent(typeof(MeshFilter));
-        MeshRenderer mr = (MeshRenderer) theObj.gameObject.GetComponent(typeof(MeshRenderer));
-        mf.mesh = mesh;
-        mr.material.color = Color.white;
-        theObj.transform.SetParent(this.transform);
     }
 
     private void addTile(int type, int ix, int iy) {

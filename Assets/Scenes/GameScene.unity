@@ -543,6 +543,7 @@ MonoBehaviour:
   box2Prefab: {fileID: 158186, guid: 58b8c262c7762ee44add6ceefeaade36, type: 2}
   box3Prefab: {fileID: 190298, guid: 99919b003c7a3324788edb73c6e2557e, type: 2}
   orangePrefab: {fileID: 156904, guid: 72eea3d5355ace44b9133db8b8792b5d, type: 2}
+  slopeThickness: 0.2
   level1: {fileID: 2800000, guid: ac61b74b8163fba45a71c65dd5294e24, type: 3}
   level2: {fileID: 2800000, guid: ce01be9c888047542831e1ea4747d4d5, type: 3}
   levelPath: Assets/Levels/test_level_1.txt
