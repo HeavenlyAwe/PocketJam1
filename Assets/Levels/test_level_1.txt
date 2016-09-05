@@ -1,8 +1,8 @@
-xxxxx            p
+xxxxx            p     o   o
                       xxx xxx 
                xxxxxx        xxxxxxx    x
                                        x
-                                      x x
-xxxxxxxx                   xxxxxxxxxxxxxxxxx
+                             o        x x
+xxxxxxxx   o               xxxxxxxxxxxxxxxxx
        xxxxxxxx        xxxxx
               xxxxxxxxxx
