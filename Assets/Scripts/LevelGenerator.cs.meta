@@ -1,10 +1,15 @@
 fileFormatVersion: 2
 guid: 0919b257661aa034f86158c5162b95b9
-timeCreated: 1473065557
+timeCreated: 1473094317
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - box1Prefab: {fileID: 191164, guid: ac224c0e272af2740ade01dd836569c5, type: 2}
+  - box2Prefab: {fileID: 158186, guid: 58b8c262c7762ee44add6ceefeaade36, type: 2}
+  - box3Prefab: {instanceID: 0}
+  - orangePrefab: {instanceID: 0}
+  - level1: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

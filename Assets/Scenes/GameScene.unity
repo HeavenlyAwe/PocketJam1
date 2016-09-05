@@ -330,8 +330,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 340977817}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -10, z: 0}
-  m_LocalScale: {x: 100, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -50, z: 0}
+  m_LocalScale: {x: 500, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -458,7 +458,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -479,10 +479,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1271282621}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.08715575, y: 0, z: 0, w: 0.9961947}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 10, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -498,7 +498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameObjectToFollow: {fileID: 105022779}
-  offset: {x: 0, y: 0, z: -5}
+  offset: {x: 0, y: 1, z: -5}
 --- !u!1 &1286423536
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,6 +541,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   box1Prefab: {fileID: 191164, guid: ac224c0e272af2740ade01dd836569c5, type: 2}
   box2Prefab: {fileID: 158186, guid: 58b8c262c7762ee44add6ceefeaade36, type: 2}
-  box3Prefab: {fileID: 0}
-  orangePrefab: {fileID: 150790, guid: dadf4b51975c5e84c8ab38c688ab8c73, type: 2}
+  box3Prefab: {fileID: 190298, guid: 99919b003c7a3324788edb73c6e2557e, type: 2}
+  orangePrefab: {fileID: 156904, guid: 72eea3d5355ace44b9133db8b8792b5d, type: 2}
+  level1: {fileID: 2800000, guid: ac61b74b8163fba45a71c65dd5294e24, type: 3}
+  level2: {fileID: 2800000, guid: ce01be9c888047542831e1ea4747d4d5, type: 3}
   levelPath: Assets/Levels/test_level_1.txt
