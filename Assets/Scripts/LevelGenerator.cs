@@ -136,10 +136,7 @@ public class LevelGenerator : MonoBehaviour {
             int gg = colors[i].g;
             int bb = colors[i].b;
 
-            Debug.Log(rr + ", " + gg + ", " + bb + " : " + r + ", " + g + ", " + b);
-
             if (rr != r || gg != g || bb != b) {
-                Debug.Log("Breaking out of X: " + x + ":" + maxX);
                 break;
             }
             maxX = ix;
@@ -153,7 +150,6 @@ public class LevelGenerator : MonoBehaviour {
             int bb = colors[i].b;
 
             if (rr != r || gg != g || bb != b) {
-                Debug.Log("Breaking out of y: " + y + ":" + maxY);
                 break;
             }
             maxY = iy;

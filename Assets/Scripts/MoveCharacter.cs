@@ -65,6 +65,24 @@ public class MoveCharacter : MonoBehaviour {
             bouncingOnEnemy = true;
             // pushDir = new Vector3(-controller.velocity.x, Mathf.Abs(controller.velocity.x), 0);
             // pushDir *= 0.1f;
+
+            ParticleSystem particleSystem = GameObject.Find("OrangeExplosion").GetComponent<ParticleSystem>();
+            Vector3 position = hit.gameObject.transform.position;
+            particleSystem.transform.localPosition = new Vector3(position.x, position.y, -1);
+            particleSystem.Play();
+
+            Animator orangeSplatAnimator = GameObject.Find("orangejuice_0").GetComponent<Animator>();
+            orangeSplatAnimator.SetTrigger("StartAnimation");
+
+            if (GameObject.Find("orangejuice_0").GetComponent<FollowGameObject>() == null) {
+                GameObject.Find("orangejuice_0").AddComponent<FollowGameObject>();
+            }
+            FollowGameObject follow = GameObject.Find("orangejuice_0").GetComponent<FollowGameObject>();
+            follow.gameObjectToFollow = Camera.main.gameObject;
+            follow.offset = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), 2.0f);
+
+            // orangeSplatAnimator.transform.localPosition = Camera.main.transform.position + new Vector3(0, 0, 2); // new Vector3(position.x, position.y, -2);
+
             GameObject.Destroy(hit.gameObject);
             return;
         }
