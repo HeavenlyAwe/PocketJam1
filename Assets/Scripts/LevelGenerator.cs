@@ -33,7 +33,7 @@ public class LevelGenerator : MonoBehaviour {
         // parseTextData();
 
         level = level2;
-        level = level1; // TODO: Remove this hard-coded value!
+        // level = level1; // TODO: Remove this hard-coded value!
         parsePictureData();
     }
 
@@ -90,26 +90,28 @@ public class LevelGenerator : MonoBehaviour {
             int g = colors[i].g;
             int b = colors[i].b;
 
-            if (r == 0 && g == 63 && b == 0) {
-
-            } else if (r == 63 && g == 63 && b == 63) {
-                // addTile(0, x, y);
+            if (r == 0 && g == 0 && b == 63) {
+                // Add left slope
                 addSlope(0, 1, x, y, colors, r, g, b);
-            } else if (r == 127 && g == 127 && b == 127) {
-                // addTile(1, x, y);
+            } else if (r == 0 && g == 63 && b == 0) {
+                // Add right slope
                 addSlope(0, -1, x, y, colors, r, g, b);
+            } else if (r == 63 && g == 63 && b == 63) {
+                addTile(0, x, y);
+            } else if (r == 127 && g == 127 && b == 127) {
+                addTile(1, x, y);
             } else if (r == 0 && g == 0 && b == 0) {
                 addTile(2, x, y);
             } else if (r == 255 && g == 0 && b == 0) {
+                // Set player
                 setPlayerStartPosition(x, y);
             } else if (r == 0 && g == 255 && b == 0) {
+                // Add orange
                 addOrange(x, y);
             }
 
             checkedValues[y][x] = true;
         }
-
-        addTile(2, 0, 0);
     }
 
     /// <summary>
@@ -123,7 +125,7 @@ public class LevelGenerator : MonoBehaviour {
     /// <param name="r"></param>
     /// <param name="b"></param>
     /// <param name="g"></param>
-    private void addSlope(int type, int direction, int x, int y, Color32[] colors, int r, int b, int g) {
+    private void addSlope(int type, int direction, int x, int y, Color32[] colors, int r, int g, int b) {
         int maxX = x;
         int maxY = y;
 
@@ -134,7 +136,10 @@ public class LevelGenerator : MonoBehaviour {
             int gg = colors[i].g;
             int bb = colors[i].b;
 
+            Debug.Log(rr + ", " + gg + ", " + bb + " : " + r + ", " + g + ", " + b);
+
             if (rr != r || gg != g || bb != b) {
+                Debug.Log("Breaking out of X: " + x + ":" + maxX);
                 break;
             }
             maxX = ix;
@@ -148,6 +153,7 @@ public class LevelGenerator : MonoBehaviour {
             int bb = colors[i].b;
 
             if (rr != r || gg != g || bb != b) {
+                Debug.Log("Breaking out of y: " + y + ":" + maxY);
                 break;
             }
             maxY = iy;
@@ -169,10 +175,10 @@ public class LevelGenerator : MonoBehaviour {
         GameObject slopeCenter = GameObject.CreatePrimitive(PrimitiveType.Cube);
 
         float angle = Mathf.Acos((x1 - x0) / length) * direction;
-        float xOffset = slopeThickness/2.0f * Mathf.Sin(angle);
+        float xOffset = slopeThickness / 2.0f * Mathf.Sin(angle);
         float yOffset = slopeThickness / 2.0f * Mathf.Cos(angle);
 
-        slopeCenter.transform.localScale = new Vector3(length, slopeThickness, 1.0f);
+        slopeCenter.transform.localScale = new Vector3(length, slopeThickness, 0.99f);
         slopeCenter.transform.Rotate(new Vector3(0, 0, -Mathf.Rad2Deg * angle));
         slopeCenter.transform.position = new Vector3((x1 - x0) / 2.0f + x0 - xOffset, (y1 - y0) / 2.0f + y0 - yOffset, 0);
 
