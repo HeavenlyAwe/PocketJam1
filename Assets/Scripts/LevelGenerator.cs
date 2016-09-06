@@ -8,6 +8,7 @@ public class LevelGenerator : MonoBehaviour {
     public GameObject box1Prefab;
     public GameObject box2Prefab;
     public GameObject box3Prefab;
+    public GameObject box4Prefab;
 
     public GameObject orangePrefab;
 
@@ -102,6 +103,8 @@ public class LevelGenerator : MonoBehaviour {
                 addTile(1, x, y);
             } else if (r == 0 && g == 0 && b == 0) {
                 addTile(2, x, y);
+            } else if (r == 191 && g == 191 && b == 191) { 
+                addTile(3, x, y);
             } else if (r == 255 && g == 0 && b == 0) {
                 // Set player
                 setPlayerStartPosition(x, y);
@@ -192,6 +195,9 @@ public class LevelGenerator : MonoBehaviour {
         } else if (type == 2) {
             tile = (GameObject)Instantiate(box3Prefab, new Vector3(ix, iy, 0), Quaternion.Euler(0, 0, 180));
             tile.name = "Tile: Box3";
+        } else if (type == 3) {
+            tile = (GameObject)Instantiate(box4Prefab, new Vector3(ix, iy, 0), Quaternion.Euler(0, 0, 180));
+            tile.name = "Tile: Box4";
         }
         tile.transform.SetParent(this.transform);
     }
